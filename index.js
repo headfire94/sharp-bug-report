@@ -1,17 +1,25 @@
 const sharp = require('sharp')
+const fs = require('fs')
+const path = require('path')
 
-const processImg =async  filename => {
-  console.log('processing', filename)
-  const buffer = await sharp(`./${filename}.png`)
+const processImg =async (input, output) => {
+  console.log('processing', input)
+  const buffer = await sharp(input)
     .png({ compressionLevel: 9, quality: 90 })
     .toBuffer()
   
   return sharp(buffer)
-    .toFile(`./${filename}-out.png`)
+    .toFile(output)
 }
 
 const run = async () => {
-  ['swiss', 'image-2', 'image' ].map(processImg)
+  const fileNames = fs.readdirSync('./for-test')
+  
+  for (let filename of fileNames) {
+    await processImg(path.resolve('./for-test', filename), `./output/${filename}`)
+  }
+  
+  await processImg(path.resolve('broken-image.png', './output/broken-image.png'))
 }
 
 try {
