@@ -11,7 +11,7 @@ const processImg =async  filename => {
 }
 
 const run = async () => {
-  ['image-2', 'image'].map(processImg)
+  ['swiss', 'image-2', 'image' ].map(processImg)
 }
 
 try {
